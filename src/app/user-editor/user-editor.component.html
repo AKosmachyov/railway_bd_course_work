@@ -1,0 +1,38 @@
+<div class="container">
+  <div class="row justify-content-md-center">
+    <div class="card" style="width: 40rem;">
+      <div class="card-body">
+        <form #userForm="ngForm">
+          <div class="form-group row">
+            <label for="firstName" class="col-sm-3 col-form-label">Имя</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="firstName" placeholder="Михаил"
+                     required [(ngModel)]="currentUser.FirstName" name="firstName" pattern="[-a-zA-Z]*">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="middleName" class="col-sm-3 col-form-label">Отчество</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="middleName" placeholder="Романович">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="LastName" class="col-sm-3 col-form-label">Фамилия</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="LastName" placeholder="Носков">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="PassportSerial" class="col-sm-3 col-form-label">Серия паспорта</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="PassportSerial" placeholder="МС0000000">
+            </div>
+          </div>
+          <div class="row btn-submit">
+            <button type="submit" class="btn btn-primary col-sm-6">Добавить</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
