@@ -8,6 +8,8 @@ import { TripEditorComponent } from './trip-editor/trip-editor.component';
 import { TrainEditorComponent } from './train-editor/train-editor.component';
 import { TicketEditorComponent } from './ticket-editor/ticket-editor.component';
 
+import { AppRoutingModule } from './app-routing.module';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -18,7 +20,8 @@ import { TicketEditorComponent } from './ticket-editor/ticket-editor.component';
   ],
   imports: [
     BrowserModule,
-    FormsModule
+    FormsModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
