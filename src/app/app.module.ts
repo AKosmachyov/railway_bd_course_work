@@ -4,11 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { UserEditorComponent } from './user-editor/user-editor.component';
+import { TripEditorComponent } from './trip-editor/trip-editor.component';
+import { TrainEditorComponent } from './train-editor/train-editor.component';
+import { TicketEditorComponent } from './ticket-editor/ticket-editor.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    UserEditorComponent
+    UserEditorComponent,
+    TripEditorComponent,
+    TrainEditorComponent,
+    TicketEditorComponent
   ],
   imports: [
     BrowserModule,

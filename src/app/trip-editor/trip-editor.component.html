@@ -1,0 +1,41 @@
+<div class="container">
+  <div class="row justify-content-md-center">
+    <div class="card" style="width: 40rem;">
+      <div class="card-body">
+        <form #tripForm="ngForm">
+          <div class="form-group row">
+            <label for="idTrip" class="col-sm-3 col-form-label">ID поездки</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="idTrip" placeholder="0" name="idTrip"
+                     [ngClass]="{'is-invalid': idTrip.touched && !idTrip.valid}"
+                     #idTrip="ngModel"
+                     [(ngModel)]="currentTrip.id_Trip"
+                     pattern="[\d]*"
+                     required>
+              <div class="invalid-feedback">
+                Пожалуйста укажите правильный ID поездки
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="trainIdTrain" class="col-sm-3 col-form-label">ID поезда</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="trainIdTrain" placeholder="0" name="trainIdTrain"
+                     [ngClass]="{'is-invalid': trainIdTrain.touched && !trainIdTrain.valid}"
+                     #trainIdTrain="ngModel"
+                     [(ngModel)]="currentTrip.Train_idTrain"
+                     pattern="[\d]*"
+                     required>
+              <div class="invalid-feedback">
+                Пожалуйста укажите правильный ID поезда
+              </div>
+            </div>
+          </div>
+          <div class="row btn-submit">
+            <button type="submit" class="btn btn-primary col-sm-6" [disabled]="!tripForm.valid">Добавить</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
