@@ -6,30 +6,61 @@
           <div class="form-group row">
             <label for="firstName" class="col-sm-3 col-form-label">Имя</label>
             <div class="col-sm-9">
-              <input type="text" class="form-control" id="firstName" placeholder="Михаил"
-                     required [(ngModel)]="currentUser.FirstName" name="firstName" pattern="[-a-zA-Z]*">
+              <input type="text" class="form-control" id="firstName" placeholder="Михаил" name="firstName"
+                     [ngClass]="{'is-invalid': firstName.touched && !firstName.valid}"
+                     #firstName="ngModel"
+                     [(ngModel)]="currentUser.FirstName"
+                     pattern="[-a-zа-яA-ZА-Я]*"
+                     required>
+              <div class="invalid-feedback">
+                Пожалуйста укажите правильное Имя
+              </div>
             </div>
           </div>
           <div class="form-group row">
             <label for="middleName" class="col-sm-3 col-form-label">Отчество</label>
-            <div class="col-sm-9">
-              <input type="text" class="form-control" id="middleName" placeholder="Романович">
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="middleName" placeholder="Романович" name="middleName"
+                       [ngClass]="{'is-invalid': middleName.touched && !middleName.valid}"
+                       #middleName="ngModel"
+                       [(ngModel)]="currentUser.MiddleName"
+                       pattern="[-a-zа-яA-ZА-Я]*"
+                       required>
+                <div class="invalid-feedback">
+                  Пожалуйста укажите правильное отчество
+                </div>
             </div>
           </div>
           <div class="form-group row">
-            <label for="LastName" class="col-sm-3 col-form-label">Фамилия</label>
+            <label for="lastName" class="col-sm-3 col-form-label">Фамилия</label>
             <div class="col-sm-9">
-              <input type="text" class="form-control" id="LastName" placeholder="Носков">
+              <input type="text" class="form-control" id="lastName" placeholder="Носков" name="lastName"
+                     [ngClass]="{'is-invalid': lastName.touched && !lastName.valid}"
+                     #lastName="ngModel"
+                     [(ngModel)]="currentUser.LastName"
+                     pattern="[-a-zа-яA-ZА-Я]*"
+                     required>
+              <div class="invalid-feedback">
+                Пожалуйста укажите правильную фамилию
+              </div>
             </div>
           </div>
           <div class="form-group row">
-            <label for="PassportSerial" class="col-sm-3 col-form-label">Серия паспорта</label>
+            <label for="passportSerial" class="col-sm-3 col-form-label">Серия паспорта</label>
             <div class="col-sm-9">
-              <input type="text" class="form-control" id="PassportSerial" placeholder="МС0000000">
+              <input type="text" class="form-control" id="passportSerial" placeholder="PP0000000" name="passportSerial"
+                     [ngClass]="{'is-invalid': passportSerial.touched && !passportSerial.valid}"
+                     #passportSerial="ngModel"
+                     [(ngModel)]="currentUser.PassportSerial"
+                     pattern="[^\W_]*"
+                     required>
+              <div class="invalid-feedback">
+                Пожалуйста укажите правильную cерия паспорта
+              </div>
             </div>
           </div>
           <div class="row btn-submit">
-            <button type="submit" class="btn btn-primary col-sm-6">Добавить</button>
+            <button type="submit" class="btn btn-primary col-sm-6" [disabled]="!userForm.valid">Добавить</button>
           </div>
         </form>
       </div>
