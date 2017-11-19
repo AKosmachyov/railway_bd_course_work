@@ -1,0 +1,16 @@
+<div class="card" *ngIf="arr">
+  <div class="card-body">
+    <table class="table table-striped">
+      <thead>
+        <tr *ngIf="arr">
+          <th scope="col" *ngFor="let key of arr[0] | keys">{{key}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let itemArr of arr">
+          <td *ngFor="let key of itemArr | keys">{{itemArr[key]}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

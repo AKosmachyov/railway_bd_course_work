@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { ServerService } from '../services/server.service';
+
 import { User } from '../classes/user';
 
 @Component({
@@ -9,10 +11,15 @@ import { User } from '../classes/user';
 })
 export class UserEditorComponent implements OnInit {
   currentUser: User = new User();
+  arr: [User];
 
-  constructor() { }
+  constructor(private serverService: ServerService) { }
 
   ngOnInit() {
+    this.serverService.getUsers()
+      .then((res: any) => {
+        this.arr = res;
+      });
   }
 
 }
