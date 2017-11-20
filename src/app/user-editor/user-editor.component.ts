@@ -22,4 +22,16 @@ export class UserEditorComponent implements OnInit {
       });
   }
 
+  addObject() {
+   const savedUser = Object.assign({}, this.currentUser);
+   delete this.currentUser.idUser;
+   this.serverService.addObject('user', this.currentUser)
+     .then((id: number) => {
+     savedUser.idUser = '' + id;
+       this.arr.push(savedUser);
+       this.currentUser = new User();
+     }).catch((err) => {
+     console.error(err);
+   });
+  }
 }

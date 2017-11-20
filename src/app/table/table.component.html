@@ -9,6 +9,10 @@
       <tbody>
         <tr *ngFor="let itemArr of arr">
           <td *ngFor="let key of itemArr | keys">{{itemArr[key]}}</td>
+          <td>
+            <button>edit</button>
+            <button>remove</button>
+          </td>
         </tr>
       </tbody>
     </table>

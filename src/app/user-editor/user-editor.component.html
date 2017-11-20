@@ -60,7 +60,8 @@
             </div>
           </div>
           <div class="row btn-submit">
-            <button type="submit" class="btn btn-primary col-sm-6" [disabled]="!userForm.valid">Добавить</button>
+            <button type="submit" class="btn btn-primary col-sm-6"
+                    [disabled]="!userForm.valid" (click)="addObject(); userForm.reset();">Добавить</button>
           </div>
         </form>
       </div>
