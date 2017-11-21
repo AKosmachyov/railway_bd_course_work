@@ -60,13 +60,18 @@
             </div>
           </div>
           <div class="row btn-submit">
-            <button type="submit" class="btn btn-primary col-sm-6"
+            <button type="submit" class="btn btn-primary col-sm-6" *ngIf="!isUpdate; else elseBlock "
                     [disabled]="!userForm.valid" (click)="addObject(); userForm.reset();">Добавить</button>
+            <ng-template #elseBlock>
+              <button type="submit" class="btn btn-primary col-sm-6"
+                      [disabled]="!userForm.valid" (click)="updateObject(); userForm.reset();">Изменить</button>
+            </ng-template>
           </div>
         </form>
       </div>
     </div>
 
-    <app-table [arr] = "arr"></app-table>
+    <app-table [arr] = "arr" (onEditElement)="setUpdateObject($event)" (onRemoveElement)="removeObject($event)">
+    </app-table>
   </div>
 </div>

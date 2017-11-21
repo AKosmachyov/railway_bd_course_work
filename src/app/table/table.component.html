@@ -10,8 +10,8 @@
         <tr *ngFor="let itemArr of arr">
           <td *ngFor="let key of itemArr | keys">{{itemArr[key]}}</td>
           <td>
-            <button>edit</button>
-            <button>remove</button>
+            <button (click)="onEdit(itemArr)">edit</button>
+            <button (click)="onRemove(itemArr)">remove</button>
           </td>
         </tr>
       </tbody>

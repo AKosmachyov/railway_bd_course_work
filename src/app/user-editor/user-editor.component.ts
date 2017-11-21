@@ -10,13 +10,18 @@ import { User } from '../classes/user';
   styleUrls: ['./user-editor.component.css']
 })
 export class UserEditorComponent implements OnInit {
+  TABLE_NAME = 'user';
   currentUser: User = new User();
+
+  isUpdate: Boolean = false;
+  updatedUser: User;
+
   arr: [User];
 
   constructor(private serverService: ServerService) { }
 
   ngOnInit() {
-    this.serverService.getUsers()
+    this.serverService.getTableValues(this.TABLE_NAME)
       .then((res: any) => {
         this.arr = res;
       });
@@ -25,7 +30,7 @@ export class UserEditorComponent implements OnInit {
   addObject() {
    const savedUser = Object.assign({}, this.currentUser);
    delete this.currentUser.idUser;
-   this.serverService.addObject('user', this.currentUser)
+   this.serverService.addObject(this.TABLE_NAME, this.currentUser)
      .then((id: number) => {
      savedUser.idUser = '' + id;
        this.arr.push(savedUser);
@@ -33,5 +38,27 @@ export class UserEditorComponent implements OnInit {
      }).catch((err) => {
      console.error(err);
    });
+  }
+
+  setUpdateObject(user: User) {
+    console.log(user);
+    this.currentUser.LastName = user.LastName;
+    this.updatedUser = user;
+    this.isUpdate = true;
+    // this.currentUser.LastName = user.LastName;
+    // this.serverService.updateObject(this.TABLE_NAME, user, user);
+  }
+
+  updateObject() {
+    this.isUpdate = false;
+    console.log(this.currentUser);
+  }
+
+  removeObject(user: User) {
+    this.serverService.removeObject(this.TABLE_NAME, user)
+      .then(() => {
+        const i = this.arr.indexOf(user);
+        this.arr.splice(i, 1);
+      });
   }
 }
