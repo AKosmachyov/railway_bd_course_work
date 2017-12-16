@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 
 import { ServerService } from '../services/server.service';
 
@@ -10,11 +11,12 @@ import { User } from '../classes/user';
   styleUrls: ['./user-editor.component.css']
 })
 export class UserEditorComponent implements OnInit {
+  @ViewChild('userForm') userForm: NgForm;
   TABLE_NAME = 'user';
   currentUser: User = new User();
 
   isUpdate: Boolean = false;
-  updatedUser: User;
+  savedUser: User;
 
   arr: [User];
 
@@ -40,21 +42,28 @@ export class UserEditorComponent implements OnInit {
    });
   }
 
-  setUpdateObject(user: User) {
-    console.log(user);
-    this.currentUser.LastName = user.LastName;
-    this.updatedUser = user;
+  setUpdateObject(user) {
+    this.savedUser = user;
+    this.currentUser = Object.assign({}, user);
     this.isUpdate = true;
-    // this.currentUser.LastName = user.LastName;
-    // this.serverService.updateObject(this.TABLE_NAME, user, user);
   }
 
   updateObject() {
+    if(!confirm('Вы уверены?'))
+      return;
     this.isUpdate = false;
-    console.log(this.currentUser);
+    const i = this.arr.indexOf(this.savedUser);
+    this.serverService.updateObject(this.TABLE_NAME, this.savedUser, this.currentUser)
+      .then(() => {
+        this.arr.splice(i , 1, Object.assign({}, this.currentUser));
+        this.userForm.reset();
+      });
   }
 
   removeObject(user: User) {
+    if(!confirm('Вы уверены?'))
+      return;
+
     this.serverService.removeObject(this.TABLE_NAME, user)
       .then(() => {
         const i = this.arr.indexOf(user);

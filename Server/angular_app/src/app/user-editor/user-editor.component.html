@@ -9,7 +9,7 @@
               <input type="text" class="form-control" id="firstName" placeholder="Михаил" name="firstName"
                      [ngClass]="{'is-invalid': firstName.touched && !firstName.valid}"
                      #firstName="ngModel"
-                     [(ngModel)]="currentUser.FirstName"
+                     [(ngModel)]="currentUser.firstName"
                      pattern="[-a-zа-яA-ZА-Я]*"
                      required>
               <div class="invalid-feedback">
@@ -23,7 +23,7 @@
                 <input type="text" class="form-control" id="middleName" placeholder="Романович" name="middleName"
                        [ngClass]="{'is-invalid': middleName.touched && !middleName.valid}"
                        #middleName="ngModel"
-                       [(ngModel)]="currentUser.MiddleName"
+                       [(ngModel)]="currentUser.middleName"
                        pattern="[-a-zа-яA-ZА-Я]*"
                        required>
                 <div class="invalid-feedback">
@@ -37,7 +37,7 @@
               <input type="text" class="form-control" id="lastName" placeholder="Носков" name="lastName"
                      [ngClass]="{'is-invalid': lastName.touched && !lastName.valid}"
                      #lastName="ngModel"
-                     [(ngModel)]="currentUser.LastName"
+                     [(ngModel)]="currentUser.lastName"
                      pattern="[-a-zа-яA-ZА-Я]*"
                      required>
               <div class="invalid-feedback">
@@ -51,7 +51,7 @@
               <input type="text" class="form-control" id="passportSerial" placeholder="PP0000000" name="passportSerial"
                      [ngClass]="{'is-invalid': passportSerial.touched && !passportSerial.valid}"
                      #passportSerial="ngModel"
-                     [(ngModel)]="currentUser.PassportSerial"
+                     [(ngModel)]="currentUser.passportSerial"
                      pattern="[^\W_]*"
                      required>
               <div class="invalid-feedback">
@@ -64,7 +64,7 @@
                     [disabled]="!userForm.valid" (click)="addObject(); userForm.reset();">Добавить</button>
             <ng-template #elseBlock>
               <button type="submit" class="btn btn-primary col-sm-6"
-                      [disabled]="!userForm.valid" (click)="updateObject(); userForm.reset();">Изменить</button>
+                      [disabled]="!userForm.valid" (click)="updateObject();">Изменить</button>
             </ng-template>
           </div>
         </form>

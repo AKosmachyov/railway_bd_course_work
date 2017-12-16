@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { ServerService } from '../services/server.service';
+
 import { Train } from '../classes/train';
 
 @Component({
@@ -9,10 +11,16 @@ import { Train } from '../classes/train';
 })
 export class TrainEditorComponent implements OnInit {
   train: Train = new Train();
+  TABLE_NAME = 'train';
+  arr: [Train];
 
-  constructor() { }
+  constructor(private serverService: ServerService) { }
 
   ngOnInit() {
+    this.serverService.getTableValues(this.TABLE_NAME)
+      .then((res: any) => {
+        this.arr = res;
+      });
   }
 
 }

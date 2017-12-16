@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { ServerService } from '../services/server.service';
+
 import { Ticket } from '../classes/ticket';
 
 @Component({
@@ -9,10 +11,16 @@ import { Ticket } from '../classes/ticket';
 })
 export class TicketEditorComponent implements OnInit {
   ticket: Ticket = new Ticket();
+  arr: [Ticket];
+  TABLE_NAME = 'ticket';
 
-  constructor() { }
+  constructor(private serverService: ServerService) { }
 
   ngOnInit() {
+    this.serverService.getTableValues(this.TABLE_NAME)
+      .then((res: any) => {
+        this.arr = res;
+      });
   }
 
 }
