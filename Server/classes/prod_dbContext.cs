@@ -27,7 +27,7 @@ namespace Server
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseMySql("Host=localhost;Port=3306;Database=prod_db;Username=root;Password=123456");
+                optionsBuilder.UseMySql("Server=localhost;User Id=root;Password=123456;Database=prod_db");
             }
         }
 
@@ -35,27 +35,16 @@ namespace Server
         {
             modelBuilder.Entity<Arrivaltime>(entity =>
             {
-                entity.HasKey(e => new { e.Id, e.TripId, e.PointId });
-
                 entity.ToTable("arrivaltime");
 
                 entity.HasIndex(e => e.PointId)
                     .HasName("fk_ArrivalTime_Point1_idx");
 
                 entity.HasIndex(e => e.TripId)
-                    .HasName("fk_ArrivalTime_ Trip1_idx");
+                    .HasName("fk_ArrivalTime_Trip1_idx");
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
-                    .HasColumnType("int(11)")
-                    .ValueGeneratedOnAdd();
-
-                entity.Property(e => e.TripId)
-                    .HasColumnName("trip_id")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.PointId)
-                    .HasColumnName("point_id")
                     .HasColumnType("int(11)");
 
                 entity.Property(e => e.ArriveTime)
@@ -63,12 +52,30 @@ namespace Server
                     .HasColumnType("timestamp")
                     .HasDefaultValueSql("'CURRENT_TIMESTAMP'")
                     .ValueGeneratedOnAddOrUpdate();
+
+                entity.Property(e => e.PointId)
+                    .HasColumnName("Point_id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.TripId)
+                    .HasColumnName("Trip_id")
+                    .HasColumnType("int(11)");
+
+                entity.HasOne(d => d.Point)
+                    .WithMany(p => p.Arrivaltime)
+                    .HasForeignKey(d => d.PointId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_ArrivalTime_Point1");
+
+                entity.HasOne(d => d.Trip)
+                    .WithMany(p => p.Arrivaltime)
+                    .HasForeignKey(d => d.TripId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_ArrivalTime_Trip1");
             });
 
             modelBuilder.Entity<Carriage>(entity =>
             {
-                entity.HasKey(e => new { e.Id, e.CarriageTypeId });
-
                 entity.ToTable("carriage");
 
                 entity.HasIndex(e => e.CarriageTypeId)
@@ -76,8 +83,7 @@ namespace Server
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
-                    .HasColumnType("int(11)")
-                    .ValueGeneratedOnAdd();
+                    .HasColumnType("int(11)");
 
                 entity.Property(e => e.CarriageTypeId)
                     .HasColumnName("carriageType_id")
@@ -116,8 +122,6 @@ namespace Server
 
             modelBuilder.Entity<City>(entity =>
             {
-                entity.HasKey(e => new { e.Id, e.RegionId });
-
                 entity.ToTable("city");
 
                 entity.HasIndex(e => e.RegionId)
@@ -125,17 +129,18 @@ namespace Server
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
-                    .HasColumnType("int(11)")
-                    .ValueGeneratedOnAdd();
-
-                entity.Property(e => e.RegionId)
-                    .HasColumnName("region_id")
                     .HasColumnType("int(11)");
 
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnName("name")
                     .HasMaxLength(255);
+
+                entity.Property(e => e.RegionId)
+                    .HasColumnName("region_id")
+                    .HasColumnType("int(11)");
+
+                entity.HasOne(d => d.Region);
             });
 
             modelBuilder.Entity<Country>(entity =>
@@ -165,8 +170,6 @@ namespace Server
 
             modelBuilder.Entity<Point>(entity =>
             {
-                entity.HasKey(e => new { e.Id, e.RouteId, e.StationId });
-
                 entity.ToTable("point");
 
                 entity.HasIndex(e => e.RouteId)
@@ -177,8 +180,7 @@ namespace Server
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
-                    .HasColumnType("int(11)")
-                    .ValueGeneratedOnAdd();
+                    .HasColumnType("int(11)");
 
                 entity.Property(e => e.RouteId)
                     .HasColumnName("route_id")
@@ -201,6 +203,12 @@ namespace Server
                     .HasForeignKey(d => d.RouteId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_Point_Route1");
+
+                entity.HasOne(d => d.Station)
+                    .WithMany(p => p.Point)
+                    .HasForeignKey(d => d.StationId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_Point_Station1");
             });
 
             modelBuilder.Entity<Prefix>(entity =>
@@ -219,8 +227,6 @@ namespace Server
 
             modelBuilder.Entity<Region>(entity =>
             {
-                entity.HasKey(e => new { e.Id, e.CountryId });
-
                 entity.ToTable("region");
 
                 entity.HasIndex(e => e.CountryId)
@@ -228,8 +234,7 @@ namespace Server
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
-                    .HasColumnType("int(11)")
-                    .ValueGeneratedOnAdd();
+                    .HasColumnType("int(11)");
 
                 entity.Property(e => e.CountryId)
                     .HasColumnName("Country_id")
@@ -240,11 +245,7 @@ namespace Server
                     .HasColumnName("name")
                     .HasMaxLength(255);
 
-                entity.HasOne(d => d.Country)
-                    .WithMany(p => p.Region)
-                    .HasForeignKey(d => d.CountryId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_Region_Country1");
+                entity.HasOne(d => d.Country);
             });
 
             modelBuilder.Entity<Route>(entity =>
@@ -263,8 +264,6 @@ namespace Server
 
             modelBuilder.Entity<Station>(entity =>
             {
-                entity.HasKey(e => new { e.Id, e.PrefixId, e.CityId });
-
                 entity.ToTable("station");
 
                 entity.HasIndex(e => e.CityId)
@@ -275,11 +274,6 @@ namespace Server
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
-                    .HasColumnType("int(11)")
-                    .ValueGeneratedOnAdd();
-
-                entity.Property(e => e.PrefixId)
-                    .HasColumnName("prefix_id")
                     .HasColumnType("int(11)");
 
                 entity.Property(e => e.CityId)
@@ -291,6 +285,16 @@ namespace Server
                     .HasColumnName("name")
                     .HasMaxLength(255);
 
+                entity.Property(e => e.PrefixId)
+                    .HasColumnName("prefix_id")
+                    .HasColumnType("int(11)");
+
+                entity.HasOne(d => d.City)
+                    .WithMany(p => p.Station)
+                    .HasForeignKey(d => d.CityId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_Station_City1");
+
                 entity.HasOne(d => d.Prefix)
                     .WithMany(p => p.Station)
                     .HasForeignKey(d => d.PrefixId)
@@ -300,8 +304,6 @@ namespace Server
 
             modelBuilder.Entity<Ticket>(entity =>
             {
-                entity.HasKey(e => new { e.Id, e.Depart, e.Arrive, e.UserId });
-
                 entity.ToTable("ticket");
 
                 entity.HasIndex(e => e.Arrive)
@@ -315,26 +317,37 @@ namespace Server
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
-                    .HasColumnType("int(11)")
-                    .ValueGeneratedOnAdd();
-
-                entity.Property(e => e.Depart)
-                    .HasColumnName("depart")
                     .HasColumnType("int(11)");
 
                 entity.Property(e => e.Arrive)
                     .HasColumnName("arrive")
                     .HasColumnType("int(11)");
 
-                entity.Property(e => e.UserId)
-                    .HasColumnName("user_id")
-                    .HasColumnType("int(11)");
-
                 entity.Property(e => e.CarriageNumber)
                     .HasColumnName("carriage_number")
                     .HasColumnType("int(11)");
 
+                entity.Property(e => e.Depart)
+                    .HasColumnName("depart")
+                    .HasColumnType("int(11)");
+
                 entity.Property(e => e.Price).HasColumnName("price");
+
+                entity.Property(e => e.UserId)
+                    .HasColumnName("user_id")
+                    .HasColumnType("int(11)");
+
+                entity.HasOne(d => d.ArriveNavigation)
+                    .WithMany(p => p.TicketArriveNavigation)
+                    .HasForeignKey(d => d.Arrive)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_Ticket_ArrivalTime4");
+
+                entity.HasOne(d => d.DepartNavigation)
+                    .WithMany(p => p.TicketDepartNavigation)
+                    .HasForeignKey(d => d.Depart)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_Ticket_ArrivalTime3");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Ticket)
@@ -345,8 +358,6 @@ namespace Server
 
             modelBuilder.Entity<Traincompositioncarriage>(entity =>
             {
-                entity.HasKey(e => new { e.Id, e.CarriageId, e.TripId });
-
                 entity.ToTable("traincompositioncarriage");
 
                 entity.HasIndex(e => e.CarriageId)
@@ -357,8 +368,11 @@ namespace Server
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
-                    .HasColumnType("int(11)")
-                    .ValueGeneratedOnAdd();
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.BookSeats)
+                    .HasColumnName("book_seats")
+                    .HasColumnType("int(11)");
 
                 entity.Property(e => e.CarriageId)
                     .HasColumnName("carriage_id")
@@ -368,15 +382,21 @@ namespace Server
                     .HasColumnName("trip_id")
                     .HasColumnType("int(11)");
 
-                entity.Property(e => e.BookSeats)
-                    .HasColumnName("book_seats")
-                    .HasColumnType("int(11)");
+                entity.HasOne(d => d.Carriage)
+                    .WithMany(p => p.Traincompositioncarriage)
+                    .HasForeignKey(d => d.CarriageId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_Carriage_trip_Carriage1");
+
+                entity.HasOne(d => d.Trip)
+                    .WithMany(p => p.Traincompositioncarriage)
+                    .HasForeignKey(d => d.TripId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_TrainCompositionCarriage_Trip1");
             });
 
             modelBuilder.Entity<Trip>(entity =>
             {
-                entity.HasKey(e => new { e.Id, e.LocomotiveId });
-
                 entity.ToTable("trip");
 
                 entity.HasIndex(e => e.LocomotiveId)
@@ -384,8 +404,7 @@ namespace Server
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
-                    .HasColumnType("int(11)")
-                    .ValueGeneratedOnAdd();
+                    .HasColumnType("int(11)");
 
                 entity.Property(e => e.LocomotiveId)
                     .HasColumnName("locomotive_id")

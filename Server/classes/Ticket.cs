@@ -12,6 +12,8 @@ namespace Server
         public int Arrive { get; set; }
         public int UserId { get; set; }
 
+        public Arrivaltime ArriveNavigation { get; set; }
+        public Arrivaltime DepartNavigation { get; set; }
         public User User { get; set; }
     }
 }
