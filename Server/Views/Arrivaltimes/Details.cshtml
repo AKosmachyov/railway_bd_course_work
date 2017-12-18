@@ -1,0 +1,36 @@
+﻿@model Server.Arrivaltime
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Arrivaltime</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ArriveTime)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ArriveTime)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Point)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Point.Id)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Trip)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Trip.Id)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

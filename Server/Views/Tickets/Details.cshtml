@@ -1,0 +1,48 @@
+﻿@model Server.Ticket
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Ticket</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CarriageNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CarriageNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ArriveNavigation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ArriveNavigation.Id)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DepartNavigation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DepartNavigation.Id)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.User)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.User.FirstName)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

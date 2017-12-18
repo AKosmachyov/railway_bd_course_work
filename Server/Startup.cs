@@ -8,12 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-<<<<<<< HEAD
-using Server.Data;
 using Server.Models;
+using Server.Data;
 using Server.Services;
-=======
->>>>>>> d8e604b5b4eeae0d0f14e2ba9bb797c1d0bfd22a
 
 namespace Server
 {
@@ -51,10 +48,8 @@ namespace Server
             {
                 app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
-<<<<<<< HEAD
+
                 app.UseDatabaseErrorPage();
-=======
->>>>>>> d8e604b5b4eeae0d0f14e2ba9bb797c1d0bfd22a
             }
             else
             {
@@ -63,20 +58,13 @@ namespace Server
 
             app.UseStaticFiles();
 
-<<<<<<< HEAD
-            app.UseAuthentication();
 
-=======
->>>>>>> d8e604b5b4eeae0d0f14e2ba9bb797c1d0bfd22a
+            app.UseAuthentication();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
-<<<<<<< HEAD
                     template: "{controller=Home}/{action=Index}/{id?}");
-=======
-                    template: "{controller=Countries}/{action=Index}/{id?}");
->>>>>>> d8e604b5b4eeae0d0f14e2ba9bb797c1d0bfd22a
             });
         }
     }

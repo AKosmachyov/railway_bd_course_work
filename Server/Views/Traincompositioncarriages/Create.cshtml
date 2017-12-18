@@ -1,0 +1,41 @@
+﻿@model Server.Traincompositioncarriage
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<h4>Traincompositioncarriage</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="BookSeats" class="control-label">Забронировано мест</label>
+                <input asp-for="BookSeats" class="form-control" />
+                <span asp-validation-for="BookSeats" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CarriageId" class="control-label">Вагон</label>
+                <select asp-for="CarriageId" class ="form-control" asp-items="ViewBag.CarriageId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="TripId" class="control-label">Поездка</label>
+                <select asp-for="TripId" class ="form-control" asp-items="ViewBag.TripId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

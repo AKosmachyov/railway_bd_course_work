@@ -17,7 +17,7 @@
     </environment>
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-inverse">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -30,9 +30,29 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                    @*<li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>*@
+
+                    <li><a asp-area="" asp-controller="Cities" asp-action="Index">Cities</a></li>
+                    <li><a asp-area="" asp-controller="Countries" asp-action="Index">Countries</a></li>
+                    <li><a asp-area="" asp-controller="Regions" asp-action="Index">Regions</a></li>
+
+                    <li><a asp-area="" asp-controller="Stations" asp-action="Index">Stations</a></li>
+                    <li><a asp-area="" asp-controller="Prefixes" asp-action="Index">Prefixes</a></li>
+
+                    <li><a asp-area="" asp-controller="Routes" asp-action="Index">Routes</a></li>
+                    <li><a asp-area="" asp-controller="Points" asp-action="Index">Points</a></li>
+
+                    <li><a asp-area="" asp-controller="Users" asp-action="Index">Users</a></li>
+                    <li><a asp-area="" asp-controller="Tickets" asp-action="Index">Tickets</a></li>
+
+                    <li><a asp-area="" asp-controller="Carriages" asp-action="Index">Carriages</a></li>
+                    <li><a asp-area="" asp-controller="Carriagetypes" asp-action="Index">Carriagetypes</a></li>
+                    <li><a asp-area="" asp-controller="Traincompositioncarriages" asp-action="Index">Traincompositioncarriages</a></li>
+                    <li><a asp-area="" asp-controller="Locomotives" asp-action="Index">Locomotives</a></li>
+                    <li><a asp-area="" asp-controller="Trips" asp-action="Index">Trips</a></li>
+                    <li><a asp-area="" asp-controller="Arrivaltimes" asp-action="Index">Arrivaltimes</a></li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>

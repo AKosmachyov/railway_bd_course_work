@@ -1,0 +1,36 @@
+﻿@model Server.Traincompositioncarriage
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Traincompositioncarriage</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.BookSeats)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BookSeats)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Carriage)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Carriage.Id)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Trip)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Trip.Id)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -1,0 +1,49 @@
+﻿@model Server.Point
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>Point</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="StayTime" class="control-label">Время стоянки</label>
+                <input asp-for="StayTime" class="form-control" />
+                <span asp-validation-for="StayTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TripDistance" class="control-label">Расстояние от начальной станции</label>
+                <input asp-for="TripDistance" class="form-control" />
+                <span asp-validation-for="TripDistance" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RouteId" class="control-label">Маршрут</label>
+                <select asp-for="RouteId" class="form-control" asp-items="ViewBag.RouteId"></select>
+                <span asp-validation-for="RouteId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StationId" class="control-label">Станция</label>
+                <select asp-for="StationId" class="form-control" asp-items="ViewBag.StationId"></select>
+                <span asp-validation-for="StationId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

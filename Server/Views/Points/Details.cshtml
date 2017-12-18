@@ -1,0 +1,42 @@
+﻿@model Server.Point
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Point</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.StayTime)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.StayTime)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TripDistance)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TripDistance)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Route)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Route.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Station)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Station.Name)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
