@@ -84,9 +84,16 @@ namespace Server.Controllers
             {
                 return NotFound();
             }
-            
             //Station.Name
-            ViewData["PointId"] = new SelectList(_context.Point, "Id", "Id", arrivaltime.PointId);
+            List<object> newList = new List<object>();
+            var station = _context.Point.Include(x => x.Station).Include(x => x.Route);
+            foreach (var member in station)
+                newList.Add(new
+                {
+                    Id = member.Id,
+                    Name = member.Route.Name + ", " + member.Station.Name
+                });
+            ViewData["PointId"] = new SelectList(newList, "Id", "Name", arrivaltime.PointId);
             ViewData["TripId"] = new SelectList(_context.Trip, "Id", "Id", arrivaltime.TripId);
             return View(arrivaltime);
         }
