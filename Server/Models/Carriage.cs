@@ -7,7 +7,7 @@ namespace Server
     {
         public Carriage()
         {
-            Traincompositioncarriage = new HashSet<Traincompositioncarriage>();
+            CarriageHasLocomotive = new HashSet<CarriageHasLocomotive>();
         }
 
         public int Id { get; set; }
@@ -16,6 +16,6 @@ namespace Server
         public int Seats { get; set; }
 
         public Carriagetype CarriageType { get; set; }
-        public ICollection<Traincompositioncarriage> Traincompositioncarriage { get; set; }
+        public ICollection<CarriageHasLocomotive> CarriageHasLocomotive { get; set; }
     }
 }

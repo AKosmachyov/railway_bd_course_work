@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Server.Traincompositioncarriage>
+﻿@model IEnumerable<Server.CarriageHasLocomotive>
 
 @{
     ViewData["Title"] = "Index";
@@ -12,9 +12,15 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Забронировано мест</th>
-            <th>Вагон</th>
-            <th>Поездка</th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FreeSeats)
+                </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Carriage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Locomotive)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -22,13 +28,13 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.BookSeats)
+                @Html.DisplayFor(modelItem => item.FreeSeats)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Carriage.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Trip.Id)
+                @Html.DisplayFor(modelItem => item.Locomotive.Id)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

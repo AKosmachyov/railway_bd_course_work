@@ -8,6 +8,7 @@ namespace Server
     {
         public virtual DbSet<Arrivaltime> Arrivaltime { get; set; }
         public virtual DbSet<Carriage> Carriage { get; set; }
+        public virtual DbSet<CarriageHasLocomotive> CarriageHasLocomotive { get; set; }
         public virtual DbSet<Carriagetype> Carriagetype { get; set; }
         public virtual DbSet<City> City { get; set; }
         public virtual DbSet<Country> Country { get; set; }
@@ -18,7 +19,6 @@ namespace Server
         public virtual DbSet<Route> Route { get; set; }
         public virtual DbSet<Station> Station { get; set; }
         public virtual DbSet<Ticket> Ticket { get; set; }
-        public virtual DbSet<Traincompositioncarriage> Traincompositioncarriage { get; set; }
         public virtual DbSet<Trip> Trip { get; set; }
         public virtual DbSet<User> User { get; set; }
 
@@ -102,6 +102,45 @@ namespace Server
                     .HasForeignKey(d => d.CarriageTypeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_Carriage_CarriageType1");
+            });
+
+            modelBuilder.Entity<CarriageHasLocomotive>(entity =>
+            {
+                entity.ToTable("carriage_has_locomotive");
+
+                entity.HasIndex(e => e.CarriageId)
+                    .HasName("fk_Carriage_has_Locomotive_Carriage1_idx");
+
+                entity.HasIndex(e => e.LocomotiveId)
+                    .HasName("fk_Carriage_has_Locomotive_Locomotive1_idx");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.CarriageId)
+                    .HasColumnName("Carriage_id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.FreeSeats)
+                    .HasColumnName("free_seats")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.LocomotiveId)
+                    .HasColumnName("Locomotive_id")
+                    .HasColumnType("int(11)");
+
+                entity.HasOne(d => d.Carriage)
+                    .WithMany(p => p.CarriageHasLocomotive)
+                    .HasForeignKey(d => d.CarriageId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_Carriage_has_Locomotive_Carriage1");
+
+                entity.HasOne(d => d.Locomotive)
+                    .WithMany(p => p.CarriageHasLocomotive)
+                    .HasForeignKey(d => d.LocomotiveId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_Carriage_has_Locomotive_Locomotive1");
             });
 
             modelBuilder.Entity<Carriagetype>(entity =>
@@ -362,45 +401,6 @@ namespace Server
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_Ticket_User3");
-            });
-
-            modelBuilder.Entity<Traincompositioncarriage>(entity =>
-            {
-                entity.ToTable("traincompositioncarriage");
-
-                entity.HasIndex(e => e.CarriageId)
-                    .HasName("fk_Carriage_trip_Carriage1_idx");
-
-                entity.HasIndex(e => e.TripId)
-                    .HasName("fk_TrainCompositionCarriage_Trip1_idx");
-
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.BookSeats)
-                    .HasColumnName("book_seats")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.CarriageId)
-                    .HasColumnName("carriage_id")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.TripId)
-                    .HasColumnName("trip_id")
-                    .HasColumnType("int(11)");
-
-                entity.HasOne(d => d.Carriage)
-                    .WithMany(p => p.Traincompositioncarriage)
-                    .HasForeignKey(d => d.CarriageId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_Carriage_trip_Carriage1");
-
-                entity.HasOne(d => d.Trip)
-                    .WithMany(p => p.Traincompositioncarriage)
-                    .HasForeignKey(d => d.TripId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_TrainCompositionCarriage_Trip1");
             });
 
             modelBuilder.Entity<Trip>(entity =>

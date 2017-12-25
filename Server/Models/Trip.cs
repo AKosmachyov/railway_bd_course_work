@@ -8,7 +8,6 @@ namespace Server
         public Trip()
         {
             Arrivaltime = new HashSet<Arrivaltime>();
-            Traincompositioncarriage = new HashSet<Traincompositioncarriage>();
         }
 
         public int Id { get; set; }
@@ -16,6 +15,5 @@ namespace Server
 
         public Locomotive Locomotive { get; set; }
         public ICollection<Arrivaltime> Arrivaltime { get; set; }
-        public ICollection<Traincompositioncarriage> Traincompositioncarriage { get; set; }
     }
 }

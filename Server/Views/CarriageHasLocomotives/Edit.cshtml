@@ -1,4 +1,4 @@
-﻿@model Server.Traincompositioncarriage
+﻿@model Server.CarriageHasLocomotive
 
 @{
     ViewData["Title"] = "Edit";
@@ -6,7 +6,7 @@
 
 <h2>Edit</h2>
 
-<h4>Traincompositioncarriage</h4>
+<h4>CarriageHasLocomotive</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -14,19 +14,19 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="BookSeats" class="control-label">Забронировано мест</label>
-                <input asp-for="BookSeats" class="form-control" />
-                <span asp-validation-for="BookSeats" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CarriageId" class="control-label">Вагон</label>
+                <label asp-for="CarriageId" class="control-label"></label>
                 <select asp-for="CarriageId" class="form-control" asp-items="ViewBag.CarriageId"></select>
                 <span asp-validation-for="CarriageId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TripId" class="control-label">Поездка</label>
-                <select asp-for="TripId" class="form-control" asp-items="ViewBag.TripId"></select>
-                <span asp-validation-for="TripId" class="text-danger"></span>
+                <label asp-for="LocomotiveId" class="control-label"></label>
+                <select asp-for="LocomotiveId" class="form-control" asp-items="ViewBag.LocomotiveId"></select>
+                <span asp-validation-for="LocomotiveId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FreeSeats" class="control-label"></label>
+                <input asp-for="FreeSeats" class="form-control" />
+                <span asp-validation-for="FreeSeats" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />

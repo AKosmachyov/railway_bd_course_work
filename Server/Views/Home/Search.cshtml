@@ -1,0 +1,63 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="row">
+    <div>
+        @if (Model.Count > 0)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Маршрут</th>
+                    <th>Станция отправления</th>
+                    <th>Станция прибытия</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (TripView item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.routeName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.fromStation)
+                        @Html.DisplayFor(modelItem => item.fromDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.toStation)
+                        @Html.DisplayFor(modelItem => item.toDate)
+                    </td>
+                </tr>
+        }
+            </tbody>
+        </table>
+}
+else
+{
+    <h4>
+        <form asp-action="Search" class="form-inline">
+            <div class="form-group">
+                <label class="control-label">Откуда</label>
+                <input class="form-control" type="text" name="from">
+            </div>
+            <div class="form-group">
+                <label class="control-label">Куда</label>
+                <input class="form-control" type="text" name="to">
+            </div>
+            <div class="form-group">
+                <label class="control-label">Дата отправления</label>
+                <input class="form-control" type="date" name="date">
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Найти" class="btn btn-default" />
+            </div>
+        </form>
+    </h4>
+    <h5 class="warning">
+        Маршруты не найдены. Попробуйте использовать другие данные.
+    </h5>
+}
+    </div>
+</div>
