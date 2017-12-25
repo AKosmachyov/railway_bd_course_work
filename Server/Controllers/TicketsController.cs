@@ -21,7 +21,10 @@ namespace Server.Controllers
         // GET: Tickets
         public async Task<IActionResult> Index()
         {
-            var prod_dbContext = _context.Ticket.Include(t => t.ArriveNavigation).Include(t => t.DepartNavigation).Include(t => t.User);
+            var prod_dbContext = _context.Ticket
+                .Include(t => t.ArriveNavigation)
+                .Include(t => t.DepartNavigation)
+                .Include(t => t.User);
             return View(await prod_dbContext.ToListAsync());
         }
 

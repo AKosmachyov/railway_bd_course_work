@@ -21,7 +21,7 @@ namespace Server.Controllers
         // GET: Arrivaltimes
         public async Task<IActionResult> Index()
         {
-            var prod_dbContext = _context.Arrivaltime.Include(a => a.Point.Station).Include(a => a.Trip);
+            var prod_dbContext = _context.Arrivaltime.Include(a => a.Point.Station).Include(a => a.Trip).Include(a => a.Point.Route);
             return View(await prod_dbContext.ToListAsync());
         }
 
@@ -84,7 +84,6 @@ namespace Server.Controllers
             {
                 return NotFound();
             }
-            //Station.Name
             List<object> newList = new List<object>();
             var station = _context.Point.Include(x => x.Station).Include(x => x.Route);
             foreach (var member in station)

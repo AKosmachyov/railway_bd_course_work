@@ -25,6 +25,7 @@
                 @Html.DisplayFor(modelItem => item.ArriveTime)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.Point.Route.Name),
                 @Html.DisplayFor(modelItem => item.Point.Station.Name)
             </td>
             <td>

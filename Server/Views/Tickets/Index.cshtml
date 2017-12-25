@@ -12,21 +12,11 @@
 <table class="table">
     <thead>
         <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Price)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.CarriageNumber)
-                </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ArriveNavigation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DepartNavigation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User)
-            </th>
+            <th>Цена</th>
+            <th>Номер вагона</th>
+            <th>Время прибытия</th>
+            <th>Время отправления</th>
+            <th>Пользователь</th>
             <th></th>
         </tr>
     </thead>
@@ -46,7 +36,9 @@
                 @Html.DisplayFor(modelItem => item.DepartNavigation.Id)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.User.LastName)
                 @Html.DisplayFor(modelItem => item.User.FirstName)
+                @Html.DisplayFor(modelItem => item.User.MiddleName)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
