@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +20,7 @@ namespace Server.Controllers
         }
 
         // GET: Stations
+        [Authorize (Roles="admin")]
         public async Task<IActionResult> Index()
         {
             var prod_dbContext = _context.Station.Include(s => s.City).Include(s => s.Prefix);
@@ -26,6 +28,7 @@ namespace Server.Controllers
         }
 
         // GET: Stations/Details/5
+        [Authorize (Roles="admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -46,6 +49,7 @@ namespace Server.Controllers
         }
 
         // GET: Stations/Create
+        [Authorize (Roles="admin")]
         public IActionResult Create()
         {
             ViewData["CityId"] = new SelectList(_context.City, "Id", "Name");
@@ -58,6 +62,7 @@ namespace Server.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize (Roles="admin")]
         public async Task<IActionResult> Create([Bind("Id,Name,PrefixId,CityId")] Station station)
         {
             if (ModelState.IsValid)
@@ -72,6 +77,7 @@ namespace Server.Controllers
         }
 
         // GET: Stations/Edit/5
+        [Authorize (Roles="admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -94,6 +100,7 @@ namespace Server.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize (Roles="admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,PrefixId,CityId")] Station station)
         {
             if (id != station.Id)
@@ -127,6 +134,7 @@ namespace Server.Controllers
         }
 
         // GET: Stations/Delete/5
+        [Authorize (Roles="admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -149,6 +157,7 @@ namespace Server.Controllers
         // POST: Stations/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize (Roles="admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var station = await _context.Station.SingleOrDefaultAsync(m => m.Id == id);

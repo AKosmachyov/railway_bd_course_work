@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -19,12 +20,14 @@ namespace Server.Controllers
         }
 
         // GET: Prefixes
+        [Authorize (Roles="admin")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Prefix.ToListAsync());
         }
 
         // GET: Prefixes/Details/5
+        [Authorize (Roles="admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -43,6 +46,7 @@ namespace Server.Controllers
         }
 
         // GET: Prefixes/Create
+        [Authorize (Roles="admin")]
         public IActionResult Create()
         {
             return View();
@@ -53,6 +57,7 @@ namespace Server.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize (Roles="admin")]
         public async Task<IActionResult> Create([Bind("Id,Value")] Prefix prefix)
         {
             if (ModelState.IsValid)
@@ -65,6 +70,7 @@ namespace Server.Controllers
         }
 
         // GET: Prefixes/Edit/5
+        [Authorize (Roles="admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -85,6 +91,7 @@ namespace Server.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize (Roles="admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Value")] Prefix prefix)
         {
             if (id != prefix.Id)
@@ -116,6 +123,7 @@ namespace Server.Controllers
         }
 
         // GET: Prefixes/Delete/5
+        [Authorize (Roles="admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -136,6 +144,7 @@ namespace Server.Controllers
         // POST: Prefixes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize (Roles="admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var prefix = await _context.Prefix.SingleOrDefaultAsync(m => m.Id == id);
