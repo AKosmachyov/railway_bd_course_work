@@ -41,6 +41,13 @@ namespace Server.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        public IActionResult Quick(string station)
+{
+       station = station.ToLower().Trim();
+
+    IEnumerable<string> matched = _context.Station.Where(x=>x.Name.IndexOf(station, StringComparison.OrdinalIgnoreCase) >= 0).Select(x=>x.Name);
+    return Ok(matched);
+}
 
         public async Task<IActionResult> Search(string from, string to, DateTime date)
         {
