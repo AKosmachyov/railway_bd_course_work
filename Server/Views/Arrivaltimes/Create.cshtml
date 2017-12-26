@@ -13,12 +13,18 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
+                <label asp-for="ArriveTime" class="control-label">Время прибытия</label>
+                <input asp-for="ArriveTime" class="form-control" type="date" />
+                <span asp-validation-for="ArriveTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="PointId" class="control-label">Остановка</label>
-                <select asp-for="PointId" class ="form-control" asp-items="ViewBag.PointId"></select>
+                <select asp-for="PointId" class="form-control" asp-items="ViewBag.PointId"></select>
+                <span asp-validation-for="PointId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="TripId" class="control-label">Поездка</label>
-                <select asp-for="TripId" class ="form-control" asp-items="ViewBag.TripId"></select>
+                <select asp-for="TripId" class="form-control" asp-items="ViewBag.TripId"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />

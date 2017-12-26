@@ -48,7 +48,15 @@ namespace Server.Controllers
         // GET: Arrivaltimes/Create
         public IActionResult Create()
         {
-            ViewData["PointId"] = new SelectList(_context.Point, "Id", "Id");
+            List<object> newList = new List<object>();
+            var station = _context.Point.Include(x => x.Station).Include(x => x.Route);
+            foreach (var member in station)
+                newList.Add(new
+                {
+                    Id = member.Id,
+                    Name = member.Route.Name + ", " + member.Station.Name
+                });
+            ViewData["PointId"] = new SelectList(newList, "Id", "Name");
             ViewData["TripId"] = new SelectList(_context.Trip, "Id", "Id");
             return View();
         }

@@ -14,6 +14,11 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
+                <label asp-for="ArriveTime" class="control-label">Время прибытия</label>
+                <input asp-for="ArriveTime" class="form-control" type="date" />
+                <span asp-validation-for="ArriveTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="PointId" class="control-label">Остановка</label>
                 <select asp-for="PointId" class="form-control" asp-items="ViewBag.PointId"></select>
                 <span asp-validation-for="PointId" class="text-danger"></span>
