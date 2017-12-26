@@ -10,7 +10,7 @@ namespace Server
         public int CarriageNumber { get; set; }
         public int Depart { get; set; }
         public int Arrive { get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
         public Arrivaltime ArriveNavigation { get; set; }
         public Arrivaltime DepartNavigation { get; set; }

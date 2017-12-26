@@ -382,7 +382,7 @@ namespace Server
 
                 entity.Property(e => e.UserId)
                     .HasColumnName("user_id")
-                    .HasColumnType("int(11)");
+                    .HasColumnType("varchar(255)");
 
                 entity.HasOne(d => d.ArriveNavigation)
                     .WithMany(p => p.TicketArriveNavigation)
@@ -431,7 +431,7 @@ namespace Server
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
-                    .HasColumnType("int(11)");
+                    .HasColumnType("varchar(255)");
 
                 entity.Property(e => e.FirstName)
                     .IsRequired()
