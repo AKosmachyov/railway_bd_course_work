@@ -9,9 +9,9 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Маршрут</th>
-                    <th>Станция отправления</th>
-                    <th>Станция прибытия</th>
+                    <th>@Html.ActionLink("Маршрут", "Search", new { from = ViewBag.From, to = ViewBag.To, date = ViewBag.Date, sortOrder = ViewBag.DateSortParm })</th>
+                    <th>@Html.ActionLink("Станция отправления", "Search", new { from = ViewBag.From, to = ViewBag.To, date = ViewBag.Date, sortOrder = ViewBag.FromSortParm })</th>
+                    <th>@Html.ActionLink("Станция прибытия", "Search", new { from = ViewBag.From, to = ViewBag.To, date = ViewBag.Date, sortOrder = ViewBag.ToSortParm })</th>
                 </tr>
             </thead>
             <tbody>

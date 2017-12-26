@@ -49,10 +49,16 @@ namespace Server.Controllers
     return Ok(matched);
 }
 
-        public async Task<IActionResult> Search(string from, string to, DateTime date)
+        public async Task<IActionResult> Search(string from, string to, DateTime date, string sortOrder)
         {
             DateTime endDate = date.AddDays(1);
-            
+    ViewBag.From = from;
+    ViewBag.To = to;
+    ViewBag.Date = date;
+    ViewBag.FromSortParm = String.IsNullOrEmpty(sortOrder) ? "from_desc" : "";
+    ViewBag.ToSortParm = sortOrder == "To" ? "to_desc" : "To";
+    ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+
             var arrivalTimes = _context.Arrivaltime
                 .Include(ar => ar.Trip)
                 .Include(ar => ar.Point)
@@ -80,6 +86,28 @@ namespace Server.Controllers
                     }
                 }
             }
+
+            switch (sortOrder)
+    {
+        case "from_desc":
+            res = res.OrderByDescending(x=>x.fromDate).ToList();
+            break;
+        case "Date":
+            res = res.OrderBy(x=>x.routeName).ToList();
+            break;
+        case "date_desc":
+            res = res.OrderByDescending(x=>x.routeName).ToList();
+            break;
+        case "To":
+        res = res.OrderBy(x=>x.toDate).ToList();
+        break;
+        case "to_desc":
+        res = res.OrderByDescending(x=>x.toDate).ToList();
+        break;
+        default:
+            res = res.OrderBy(s => s.fromDate).ToList();
+            break;
+    }
             
 
             return View(res);
