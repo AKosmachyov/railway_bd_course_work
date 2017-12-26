@@ -17,7 +17,7 @@
             <tbody>
                 @foreach (TripView item in Model)
             {
-                <tr>
+                <tr onclick="location.href = '@(Url.Action("TripDetail", "Home", new { tripID = item.tripID, toID = item.toID, fromID = item.fromID }))'">
                     <td>
                         @Html.DisplayFor(modelItem => item.routeName)
                     </td>

@@ -24,13 +24,16 @@ namespace Server.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
+        private readonly prod_dbContext _context;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
-            ILogger<AccountController> logger)
+            ILogger<AccountController> logger,
+            prod_dbContext contex)
         {
+            _context = contex;
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
@@ -78,7 +81,7 @@ namespace Server.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Неверно указан логин или пароль.");
                     return View(model);
                 }
             }
@@ -225,6 +228,16 @@ namespace Server.Controllers
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+
+                    var railwayUser = new User();
+                    railwayUser.Id = user.Id;
+                    railwayUser.FirstName = model.FirstName;
+                    railwayUser.LastName = model.LastName;
+                    railwayUser.MiddleName = model.MiddleName;
+                    railwayUser.PassportSerial = model.PassportSerial;
+
+                    _context.Add(railwayUser);
+                    await _context.SaveChangesAsync();
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);

@@ -77,5 +77,41 @@ namespace Server.Controllers
 
             return View(res);
         }
+
+        public async Task<IActionResult> TripDetail(int? tripID, int? fromID, int? toID)
+        {
+            if (tripID == null || fromID == null || toID == null)
+                return NotFound();
+
+            var from = _context.Arrivaltime
+                .Include(ar => ar.Point)
+                .Include(ar => ar.Trip)
+                .First(ar => ar.TripId == tripID && ar.Id == fromID);
+            var to = _context.Arrivaltime
+                .Include(ar => ar.Point)
+                .First(ar => ar.TripId == tripID && ar.Id == toID);
+
+            if (from == null || to == null)
+                return NotFound();
+
+            if (from.Point.TripDistance > to.Point.TripDistance) {
+                return NotFound();
+            }
+
+            var destination = to.Point.TripDistance - from.Point.TripDistance;
+
+            var locomotiveID = from.Trip.LocomotiveId;
+            var carriageHasLocomotiveArr = _context.CarriageHasLocomotive
+                .Include(cr => cr.Locomotive)
+                .Include(cr => cr.Carriage.CarriageType)
+                .Where(cr => cr.CarriageId == locomotiveID);
+
+            var res = new List<CarriageView>();
+            foreach (var item in carriageHasLocomotiveArr)
+            {
+                res.Add(new CarriageView(item, destination));
+            }
+            return View(res);
+        }
     }
 }

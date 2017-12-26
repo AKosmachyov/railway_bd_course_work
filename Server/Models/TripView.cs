@@ -14,6 +14,10 @@ namespace Server.Models
         public string toStation;
         public string routeName;
 
+        public int tripID;
+        public int fromID;
+        public int toID;
+
         public TripView(Arrivaltime from, Point to, prod_dbContext _context)
         {
             fromDate = from.ArriveTime;
@@ -36,6 +40,10 @@ namespace Server.Models
             var carriagesHasLocomotives = _context.CarriageHasLocomotive
                 .Include(c => c.Carriage)
                 .Where(c => c.LocomotiveId == locomotivID);
+
+            tripID = from.TripId;
+            fromID = from.Id;
+            toID = arrivalTimeTo.Id;
         }
     }
 }
