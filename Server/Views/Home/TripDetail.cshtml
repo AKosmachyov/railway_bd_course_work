@@ -2,6 +2,9 @@
     ViewData["Title"] = "Home Page";
 }
 
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
 <div class="row">
     <div>
         @if (Model.Count > 0)
@@ -17,24 +20,44 @@
             </thead>
             <tbody>
                 @foreach (CarriageView item in Model)
-                 {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.carriageNumber)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.carriageType)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.price)р.
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.freeSeats)
-                        </td>
-                    </tr>
-                 }
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.carriageNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.carriageType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.price)р.
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.freeSeats)
+                    </td>
+                </tr>
+        }
             </tbody>
         </table>
 }
+    @*@if (SignInManager.IsSignedIn(User)) {*@
+        <div class="col-md-offset-3 col-md-6">
+            <form asp-action="Ticket">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label class="control-label">Отправление</label>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Прибытие</label>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Цена</label>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Купить" class="btn btn-default" />
+                </div>
+            </form>
+
+    </div>
+         @*}*@
     </div>
 </div>
