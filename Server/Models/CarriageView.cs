@@ -11,6 +11,7 @@ namespace Server.Models
         public int carriageNumber;
         public string carriageType;
         public int? freeSeats;
+        public int id;
 
         public CarriageView(CarriageHasLocomotive element, int destination)
         {
@@ -18,6 +19,7 @@ namespace Server.Models
             carriageType = element.Carriage.CarriageType.Name;
             price = element.Carriage.CarriageType.Pricefactor * destination;
             freeSeats = element.FreeSeats;
+            id = element.CarriageId;
         }
     }
 }

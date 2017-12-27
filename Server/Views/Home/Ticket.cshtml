@@ -15,28 +15,28 @@
     }
     </style>    
     <div id="main">
-        @*<span>БЛАНК ЭЛЕКТРОННОГО ПРОЕЗДНОГО ДОКУМЕНТА</span>
-        <div>Номер заказа: @Html.DisplayFor(modelItem => Model.orderNumber)</div>
-        <div>Ф.И.О.: @Html.DisplayFor(modelItem => Model.fio)</div>
-        <div>Номер проездного документа: @Html.DisplayFor(modelItem => Model.passportSeria)</div>
+        <span>БЛАНК ЭЛЕКТРОННОГО ПРОЕЗДНОГО ДОКУМЕНТА</span>
+        <div>Номер заказа: @Model.orderNumber</div>
+        <div>Ф.И.О.: @Model.fio</div>
+        <div>Номер проездного документа: @Model.passportSeria</div>
         <div>
             Отправление:
             <span>
-                @Html.DisplayFor(modelItem => Model.fromStation)
-                @Html.DisplayFor(modelItem => Model.fromDate)
+                @Model.fromStation
+                @Model.fromDate.ToString("dd/MM/yyyy HH:mm")
             </span>
         </div> 
         <div>
             Прибытие:
             <span>
-                @Html.DisplayFor(modelItem => Model.toStation)
-                @Html.DisplayFor(modelItem => Model.toDate)
+                @Model.toStation
+                @Model.toDate.ToString("dd/MM/yyyy HH:mm")
             </span>
         </div>          
         <div>
             Вагон: 
             <span>
-             @Html.DisplayFor(modelItem => Model.carriage)*@
+             @Model.carriage
              </span>
               Место: узнавайте у проводника
         </div>

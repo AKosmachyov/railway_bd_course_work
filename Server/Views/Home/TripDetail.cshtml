@@ -7,8 +7,9 @@
 
 <div class="row">
     <div>
-        @if (Model.Count > 0)
+        @if (Model.carriagesView.Count > 0)
     {
+            <h3>Для выбора нажмите на вагон</h3>
         <table class="table">
             <thead>
                 <tr>
@@ -19,45 +20,84 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (CarriageView item in Model)
+                @foreach (CarriageView item in Model.carriagesView)
             {
-                <tr>
+                <tr id="@item.id">
                     <td>
                         @Html.DisplayFor(modelItem => item.carriageNumber)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.carriageType)
                     </td>
-                    <td>
+                    <td class="price">
                         @Html.DisplayFor(modelItem => item.price)р.
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.freeSeats)
                     </td>
                 </tr>
-        }
+             }
             </tbody>
         </table>
-}
-    @*@if (SignInManager.IsSignedIn(User)) {*@
-        <div class="col-md-offset-3 col-md-6">
-            <form asp-action="Ticket">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label class="control-label">Отправление</label>
-                </div>
-                <div class="form-group">
-                    <label class="control-label">Прибытие</label>
-                </div>
-                <div class="form-group">
-                    <label class="control-label">Цена</label>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Купить" class="btn btn-default" />
-                </div>
-            </form>
 
+        <div class="col-md-offset-3 col-md-6">
+
+            @if (SignInManager.IsSignedIn(User))
+    {
+        <form>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label class="control-label">
+                    Отправление:  @Model.fromStation
+                    @Model.fromDate.ToString("dd/MM/yyyy HH:mm")
+                </label>
+            </div>
+            <div class="form-group">
+                <label class="control-label">
+                    Прибытие:
+                    @Model.toStation
+                    @Model.toDate.ToString("dd/MM/yyyy HH:mm")
+                </label>
+            </div>
+            <div class="form-group">
+                <label class="control-label all-price">Цена</label>
+            </div>
+            <div class="form-group">
+                <input type="button" value="Купить" onclick="buyTicket()" class="btn btn-default" />
+            </div>
+        </form>
+}
+else
+{
+        <h4>Для покупки билетов зайдите в системы</h4>
+}
+
+        </div>
+        } else
+        {
+            <h4>Похоже что места закончились</h4>
+        }
     </div>
-         @*}*@
-    </div>
+
+    <script>
+        var selectedCarriage;
+        function buyTicket() {
+            if (!selectedCarriage)
+                return;
+            var locationURL = window.location.href
+            locationURL = locationURL.replace('TripDetail', 'Ticket')
+            locationURL += '&carriage=' + selectedCarriage
+            window.location.href = locationURL;
+        }
+        window.onload = () => {
+            $('tr').click((event) => {
+                let price = $('tr[id="' + event.currentTarget.id + '"] > td.price').text()
+                if (!price) {
+                    return;
+                }
+                selectedCarriage = event.currentTarget.id;
+                $('.all-price')[0].innerText = 'Цена: ' + price.trim();
+            });
+        }
+    </script>
 </div>

@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Principal;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Server.Models;
@@ -12,10 +14,12 @@ namespace Server.Controllers
     public class HomeController : Controller
     {
         private readonly prod_dbContext _context;
+        private readonly UserManager<ApplicationUser> _manager;
 
-        public HomeController(prod_dbContext context)
+        public HomeController(prod_dbContext context, UserManager<ApplicationUser> manager)
         {
             _context = context;
+            _manager = manager;
         }
 
         public IActionResult Index()
@@ -52,12 +56,12 @@ namespace Server.Controllers
         public async Task<IActionResult> Search(string from, string to, DateTime date, string sortOrder)
         {
             DateTime endDate = date.AddDays(1);
-    ViewBag.From = from;
-    ViewBag.To = to;
-    ViewBag.Date = date;
-    ViewBag.FromSortParm = String.IsNullOrEmpty(sortOrder) ? "from_desc" : "";
-    ViewBag.ToSortParm = sortOrder == "To" ? "to_desc" : "To";
-    ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewBag.From = from;
+            ViewBag.To = to;
+            ViewBag.Date = date;
+            ViewBag.FromSortParm = String.IsNullOrEmpty(sortOrder) ? "from_desc" : "";
+            ViewBag.ToSortParm = sortOrder == "To" ? "to_desc" : "To";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
 
             var arrivalTimes = _context.Arrivaltime
                 .Include(ar => ar.Trip)
@@ -121,10 +125,10 @@ namespace Server.Controllers
             var from = _context.Arrivaltime
                 .Include(ar => ar.Point.Station)
                 .Include(ar => ar.Trip)
-                .First(ar => ar.TripId == tripID && ar.Id == fromID);
+                .FirstOrDefault(ar => ar.TripId == tripID && ar.Id == fromID);
             var to = _context.Arrivaltime
                 .Include(ar => ar.Point.Station)
-                .First(ar => ar.TripId == tripID && ar.Id == toID);
+                .FirstOrDefault(ar => ar.TripId == tripID && ar.Id == toID);
 
             if (from == null || to == null)
                 return NotFound();
@@ -147,27 +151,33 @@ namespace Server.Controllers
             var fromTime = from.ArriveTime;
             var toTime = to.ArriveTime;
 
-            var res = new List<CarriageView>();
+            var carriagesView = new List<CarriageView>();
             foreach (var item in carriageHasLocomotiveArr)
             {
-                res.Add(new CarriageView(item, destination));
+                carriagesView.Add(new CarriageView(item, destination));
             }
+
+            var res = new TicketWithUserDataModel();
+            res.carriagesView = carriagesView;
+            res.fromDate = from.ArriveTime;
+            res.toDate = to.ArriveTime;
+            res.fromStation = from.Point.Station.Name;
+            res.toStation = to.Point.Station.Name;
+
             return View(res);
         }
-         public IActionResult Ticket(int? tripID, int? fromID, int? toID, int? carriage)
-        {
-            tripID = 2; toID = 9; fromID = 4; 
 
+         public async Task<IActionResult> Ticket(int? tripID, int? fromID, int? toID, int? carriage)
+        {
             if (tripID == null || fromID == null || toID == null || carriage == null)
                 return NotFound();
 
             var from = _context.Arrivaltime
                 .Include(ar => ar.Point.Station)
-                .Include(ar => ar.Trip)
-                .First(ar => ar.TripId == tripID && ar.Id == fromID);
+                .FirstOrDefault(ar => ar.TripId == tripID && ar.Id == fromID);
             var to = _context.Arrivaltime
                 .Include(ar => ar.Point.Station)
-                .First(ar => ar.TripId == tripID && ar.Id == toID);
+                .FirstOrDefault(ar => ar.TripId == tripID && ar.Id == toID);
 
             if (from == null || to == null)
                 return NotFound();
@@ -194,9 +204,31 @@ namespace Server.Controllers
             res.toStation = to.Point.Station.Name;
             res.toDate = to.ArriveTime;
 
+            var user = await _manager.GetUserAsync(HttpContext.User);
+
+            var mainUser =_context.User.FirstOrDefault(u => u.Id == user.Id);
+            res.fio = mainUser.LastName + ' ' + mainUser.FirstName + ' ' + mainUser.MiddleName;
+            res.passportSeria = mainUser.PassportSerial;
+
             res.price = destination * carriageHasLocomotive.Carriage.CarriageType.Pricefactor;
 
-            return View();
+            if (--carriageHasLocomotive.FreeSeats > 0)
+            {
+                var ticket = new Ticket();
+                ticket.Price = res.price;
+                ticket.DepartNavigation = from;
+                ticket.ArriveNavigation = to;
+                ticket.User = mainUser;
+                ticket.CarriageNumber = Int32.Parse(res.carriage);
+
+
+                _context.Add(ticket);
+                _context.SaveChanges();
+                return View(res);
+            } else
+            {
+                return BadRequest();
+            }
         }
     }
 }
