@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -19,12 +20,14 @@ namespace Server.Controllers
         }
 
         // GET: Users
+        [Authorize (Roles="admin")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.User.ToListAsync());
         }
 
         // GET: Users/Details/5
+        [Authorize (Roles="admin")]
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -43,6 +46,7 @@ namespace Server.Controllers
         }
 
         // GET: Users/Create
+        [Authorize (Roles="admin")]
         public IActionResult Create()
         {
             return View();
@@ -53,6 +57,7 @@ namespace Server.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize (Roles="admin")]
         public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,MiddleName,PassportSerial")] User user)
         {
             if (ModelState.IsValid)
@@ -65,6 +70,7 @@ namespace Server.Controllers
         }
 
         // GET: Users/Edit/5
+        [Authorize (Roles="admin")]
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -85,6 +91,7 @@ namespace Server.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize (Roles="admin")]
         public async Task<IActionResult> Edit(string id, [Bind("Id,FirstName,LastName,MiddleName,PassportSerial")] User user)
         {
             if (id != user.Id)
@@ -116,6 +123,7 @@ namespace Server.Controllers
         }
 
         // GET: Users/Delete/5
+        [Authorize (Roles="admin")]
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -136,6 +144,7 @@ namespace Server.Controllers
         // POST: Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize (Roles="admin")]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var user = await _context.User.SingleOrDefaultAsync(m => m.Id == id);
