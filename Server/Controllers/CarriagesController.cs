@@ -20,7 +20,7 @@ namespace Server.Controllers
         }
 
         // GET: Carriages
-        [Authorize (Roles="admin")]
+        [Authorize (Roles="Admin")]
         public async Task<IActionResult> Index()
         {
             var prod_dbContext = _context.Carriage.Include(c => c.CarriageType);
@@ -28,7 +28,7 @@ namespace Server.Controllers
         }
 
         // GET: Carriages/Details/5
-        [Authorize (Roles="admin")]
+        [Authorize (Roles="Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -48,7 +48,7 @@ namespace Server.Controllers
         }
 
         // GET: Carriages/Create
-        [Authorize (Roles="admin")]
+        [Authorize (Roles="Admin")]
         public IActionResult Create()
         {
             ViewData["CarriageTypeId"] = new SelectList(_context.Carriagetype, "Id", "Name");
@@ -60,7 +60,7 @@ namespace Server.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize (Roles="admin")]
+        [Authorize (Roles="Admin")]
         public async Task<IActionResult> Create([Bind("Id,CarriageTypeId,Number,Seats")] Carriage carriage)
         {
             if (ModelState.IsValid)
@@ -74,7 +74,7 @@ namespace Server.Controllers
         }
 
         // GET: Carriages/Edit/5
-        [Authorize (Roles="admin")]
+        [Authorize (Roles="Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -96,7 +96,7 @@ namespace Server.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize (Roles="admin")]
+        [Authorize (Roles="Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,CarriageTypeId,Number,Seats")] Carriage carriage)
         {
             if (id != carriage.Id)
@@ -129,7 +129,7 @@ namespace Server.Controllers
         }
 
         // GET: Carriages/Delete/5
-        [Authorize (Roles="admin")]
+        [Authorize (Roles="Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -151,7 +151,7 @@ namespace Server.Controllers
         // POST: Carriages/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize (Roles="admin")]
+        [Authorize (Roles="Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var carriage = await _context.Carriage.SingleOrDefaultAsync(m => m.Id == id);

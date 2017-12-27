@@ -20,7 +20,7 @@ namespace Server.Controllers
         }
 
         // GET: Regions
-        [Authorize (Roles="admin")]
+        [Authorize (Roles="Admin")]
         public async Task<IActionResult> Index()
         {
             var prod_dbContext = _context.Region.Include(r => r.Country);
@@ -28,7 +28,7 @@ namespace Server.Controllers
         }
 
         // GET: Regions/Details/5
-        [Authorize (Roles="admin")]
+        [Authorize (Roles="Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -48,7 +48,7 @@ namespace Server.Controllers
         }
 
         // GET: Regions/Create
-        [Authorize (Roles="admin")]
+        [Authorize (Roles="Admin")]
         public IActionResult Create()
         {
             ViewData["CountryId"] = new SelectList(_context.Country, "Id", "Name");
@@ -60,7 +60,7 @@ namespace Server.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize (Roles="admin")]
+        [Authorize (Roles="Admin")]
         public async Task<IActionResult> Create([Bind("Id,Name,CountryId")] Region region)
         {
             if (ModelState.IsValid)
@@ -74,7 +74,7 @@ namespace Server.Controllers
         }
 
         // GET: Regions/Edit/5
-        [Authorize (Roles="admin")]
+        [Authorize (Roles="Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -96,7 +96,7 @@ namespace Server.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize (Roles="admin")]
+        [Authorize (Roles="Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,CountryId")] Region region)
         {
             if (id != region.Id)
@@ -129,7 +129,7 @@ namespace Server.Controllers
         }
 
         // GET: Regions/Delete/5
-        [Authorize (Roles="admin")]
+        [Authorize (Roles="Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -151,7 +151,7 @@ namespace Server.Controllers
         // POST: Regions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize (Roles="admin")]
+        [Authorize (Roles="Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var region = await _context.Region.SingleOrDefaultAsync(m => m.Id == id);

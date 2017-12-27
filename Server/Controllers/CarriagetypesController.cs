@@ -20,14 +20,14 @@ namespace Server.Controllers
         }
 
         // GET: Carriagetypes
-        [Authorize (Roles="admin")]
+        [Authorize (Roles="Admin")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Carriagetype.ToListAsync());
         }
 
         // GET: Carriagetypes/Details/5
-        [Authorize (Roles="admin")]
+        [Authorize (Roles="Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -46,7 +46,7 @@ namespace Server.Controllers
         }
 
         // GET: Carriagetypes/Create
-        [Authorize (Roles="admin")]
+        [Authorize (Roles="Admin")]
         public IActionResult Create()
         {
             return View();
@@ -57,7 +57,7 @@ namespace Server.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize (Roles="admin")]
+        [Authorize (Roles="Admin")]
         public async Task<IActionResult> Create([Bind("Id,Name,Pricefactor")] Carriagetype carriagetype)
         {
             if (ModelState.IsValid)
@@ -70,7 +70,7 @@ namespace Server.Controllers
         }
 
         // GET: Carriagetypes/Edit/5
-        [Authorize (Roles="admin")]
+        [Authorize (Roles="Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -91,7 +91,7 @@ namespace Server.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize (Roles="admin")]
+        [Authorize (Roles="Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Pricefactor")] Carriagetype carriagetype)
         {
             if (id != carriagetype.Id)
@@ -123,7 +123,7 @@ namespace Server.Controllers
         }
 
         // GET: Carriagetypes/Delete/5
-        [Authorize (Roles="admin")]
+        [Authorize (Roles="Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -144,7 +144,7 @@ namespace Server.Controllers
         // POST: Carriagetypes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize (Roles="admin")]
+        [Authorize (Roles="Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var carriagetype = await _context.Carriagetype.SingleOrDefaultAsync(m => m.Id == id);
