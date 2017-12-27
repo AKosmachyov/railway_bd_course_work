@@ -30,10 +30,12 @@
                 @Html.DisplayFor(modelItem => item.CarriageNumber)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ArriveNavigation.Id)
+                @Html.DisplayFor(modelItem => item.ArriveNavigation.Point.Station.Name)
+                @item.ArriveNavigation.ArriveTime.ToString("dd/MM/yyyy HH:mm")
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DepartNavigation.Id)
+                @Html.DisplayFor(modelItem => item.DepartNavigation.Point.Station.Name)
+                @item.DepartNavigation.ArriveTime.ToString("dd/MM/yyyy HH:mm")
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.User.LastName)

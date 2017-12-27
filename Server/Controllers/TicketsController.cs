@@ -24,9 +24,10 @@ namespace Server.Controllers
         public async Task<IActionResult> Index()
         {
             var prod_dbContext = _context.Ticket
-                .Include(t => t.ArriveNavigation)
-                .Include(t => t.DepartNavigation)
+                .Include(t => t.ArriveNavigation.Point.Station)
+                .Include(t => t.DepartNavigation.Point.Station)
                 .Include(t => t.User);
+            
             return View(await prod_dbContext.ToListAsync());
         }
 
@@ -56,9 +57,28 @@ namespace Server.Controllers
         [Authorize (Roles="Admin")]
         public IActionResult Create()
         {
-            ViewData["Arrive"] = new SelectList(_context.Arrivaltime, "Id", "Id");
-            ViewData["Depart"] = new SelectList(_context.Arrivaltime, "Id", "Id");
-            ViewData["UserId"] = new SelectList(_context.User, "Id", "FirstName");
+            List<object> arriveList = new List<object>();
+            var arrives = _context.Arrivaltime
+                .Include(x => x.Point.Station);
+            foreach (var member in arrives)
+                arriveList.Add(new
+                {
+                    Id = member.Id,
+                    Name = member.Point.Station.Name + " " + member.ArriveTime.ToString("dd/MM/yyyy HH:mm")
+                });
+
+            List<object> userList = new List<object>();
+            var users = _context.User;
+            foreach (var member in users)
+                userList.Add(new
+                {
+                    Id = member.Id,
+                    FirstName = member.LastName + " " + member.FirstName + " " + member.MiddleName
+                });
+
+            ViewData["Arrive"] = new SelectList(arriveList, "Id", "Name");
+            ViewData["Depart"] = new SelectList(arriveList, "Id", "Name");
+            ViewData["UserId"] = new SelectList(userList, "Id", "FirstName");
             return View();
         }
 
@@ -96,9 +116,30 @@ namespace Server.Controllers
             {
                 return NotFound();
             }
-            ViewData["Arrive"] = new SelectList(_context.Arrivaltime, "Id", "Id", ticket.Arrive);
-            ViewData["Depart"] = new SelectList(_context.Arrivaltime, "Id", "Id", ticket.Depart);
-            ViewData["UserId"] = new SelectList(_context.User, "Id", "FirstName", ticket.UserId);
+
+            List<object> arriveList = new List<object>();
+            var arrives = _context.Arrivaltime
+                .Include(x => x.Point.Station);
+            foreach (var member in arrives)
+                arriveList.Add(new
+                {
+                    Id = member.Id,
+                    Name = member.Point.Station.Name + " " + member.ArriveTime.ToString("dd/MM/yyyy HH:mm")
+                });
+
+            List<object> userList = new List<object>();
+            var users = _context.User;
+            foreach (var member in users)
+                userList.Add(new
+                {
+                    Id = member.Id,
+                    FirstName = member.LastName + " " + member.FirstName + " " + member.MiddleName
+                });
+
+            ViewData["Arrive"] = new SelectList(arriveList, "Id", "Name", ticket.Arrive);
+            ViewData["Depart"] = new SelectList(arriveList, "Id", "Name", ticket.Depart);
+            ViewData["UserId"] = new SelectList(userList, "Id", "FirstName", ticket.UserId);
+
             return View(ticket);
         }
 
