@@ -141,12 +141,80 @@ namespace Server.Controllers
                 .Include(cr => cr.Carriage.CarriageType)
                 .Where(cr => cr.CarriageId == locomotiveID);
 
+
+            var fromStation = from.Point.Station.Name;
+            var toStation = to.Point.Station.Name;
+            var fromTime = from.ArriveTime;
+            var toTime = to.ArriveTime;
+
             var res = new List<CarriageView>();
             foreach (var item in carriageHasLocomotiveArr)
             {
                 res.Add(new CarriageView(item, destination));
             }
             return View(res);
+        }
+         public IActionResult Ticket(int? tripID, int? fromID, int? toID, int? carriage)
+        {
+            if (tripID == null || fromID == null || toID == null || carriage == null)
+                return NotFound();
+
+            var from = _context.Arrivaltime
+                .Include(ar => ar.Point)
+                .Include(ar => ar.Trip)
+                .First(ar => ar.TripId == tripID && ar.Id == fromID);
+            var to = _context.Arrivaltime
+                .Include(ar => ar.Point)
+                .First(ar => ar.TripId == tripID && ar.Id == toID);
+
+            if (from == null || to == null)
+                return NotFound();
+
+            if (from.Point.TripDistance > to.Point.TripDistance) {
+                return NotFound();
+            }
+
+            var carriageHasLocomotive = _context.CarriageHasLocomotive
+                .Include(cl => cl.Carriage)
+                .First(cl => cl.Id == carriage);
+
+            if (carriageHasLocomotive == null) {
+                return NotFound();
+            }
+
+            var destination = to.Point.TripDistance - from.Point.TripDistance;
+
+
+            // var str = HostingEnvironment.MapPath(@"~/App_Data/ticket.html");
+
+            // StringBuilder sb = new StringBuilder();
+            // sb.Append(File.ReadAllText(str));
+            // sb.Replace("{orderNumber}", ticket.id.ToString());
+            // var arr = ticket.tripDirection.Split(',');
+            // var tempStr = String.Format("{0} {1}—{2}", arr[0], arr[1], arr[2]);
+            // sb.Replace("{direction}", tempStr);
+
+            // sb.Replace("{fio}", ticket.userName);
+            // sb.Replace("{doc}", ticket.docId);
+
+            // tempStr = String.Format("{0} {1}", ticket.fromStation.name, ticket.fromDepart.ToString("g"));
+            // sb.Replace("{from}", tempStr);
+            // tempStr = String.Format("{0} {1}", ticket.toStation.name, ticket.toArrive.ToString("g"));
+            // sb.Replace("{to}", tempStr);
+
+            // tempStr = String.Format("{0} {1}", ticket.carriage, ticket.carriageType);
+            // sb.Replace("{carriage}", tempStr);
+
+            // Byte[] res = null;
+            // using (MemoryStream ms = new MemoryStream())
+            // {
+            //     var pdf = PdfGenerator.GeneratePdf(sb.ToString(), PdfSharp.PageSize.Letter);
+            //     pdf.Save(ms);
+            //     res = ms.ToArray();
+            // }
+            // return res;
+
+            // return View();
         }
     }
 }

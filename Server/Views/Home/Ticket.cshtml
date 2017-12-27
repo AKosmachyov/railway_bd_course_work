@@ -1,0 +1,43 @@
+<style>
+    #main {
+        text-align: center;
+        font-size: 22px;
+    }
+    div {
+        margin-bottom: 15px;
+    }
+    #main div span {
+        text-decoration: underline;
+    }
+    #main > span {
+        margin-bottom: 15px;
+        display: block;
+    }
+    </style>    
+    <div id="main">
+        <span>БЛАНК ЭЛЕКТРОННОГО ПРОЕЗДНОГО ДОКУМЕНТА</span>
+        <div>Номер заказа: @Html.DisplayFor(modelItem => Model.orderNumber)</div>
+        <div>Ф.И.О.: @Html.DisplayFor(modelItem => Model.fio)</div>
+        <div>Номер проездного документа: @Html.DisplayFor(modelItem => Model.passportSeria)</div>
+        <div>
+            Отправление:
+            <span>
+                @Html.DisplayFor(modelItem => Model.fromStation)
+                @Html.DisplayFor(modelItem => Model.fromDate)
+            </span>
+        </div> 
+        <div>
+            Прибытие:
+            <span>
+                @Html.DisplayFor(modelItem => Model.toStation)
+                @Html.DisplayFor(modelItem => Model.toDate)
+            </span>
+        </div>          
+        <div>
+            Вагон: 
+            <span>
+             @Html.DisplayFor(modelItem => Model.carriage)
+             </span>
+              Место: узнавайте у проводника
+        </div>
+    </div>
